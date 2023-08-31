@@ -1,0 +1,293 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                 String    @id @default(cuid())
+  userId             String
+  providerType       String
+  providerId         String
+  providerAccountId  String
+  refreshToken       String?
+  accessToken        String?
+  accessTokenExpires DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  user               User      @relation(fields: [userId], references: [id])
+
+  @@unique([providerId, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  userId       String
+  expires      DateTime
+  sessionToken String   @unique
+  accessToken  String   @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  accounts      Account[]
+  sessions      Session[]
+}
+
+model VerificationRequest {
+  id         String   @id @default(cuid())
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([identifier, token])
+}
+
+model Admin {
+  id       String @id @default(cuid())
+  email    String @unique
+  password String
+  name     String
+
+  imageId String?
+  image   File?   @relation("avatar", fields: [imageId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  files File[] @relation("files")
+
+  folders FolderFile[] @relation("folders")
+
+  roleId String
+  role   Role   @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  histories AdminHistory[]
+
+  publish   String   @default("publish") // or draft
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Role {
+  id   String @id @default(cuid())
+  name String
+
+  admins Admin[]
+
+  permissions PermissionsOnRoles[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Permission {
+  key       String // 'browse' | 'create' | 'edit' | 'delete' | 'file' 
+  tableName String
+
+  roles PermissionsOnRoles[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // id        String @id @default(cuid())
+  @@id([key, tableName])
+}
+
+model PermissionsOnRoles {
+  roleId              String
+  permissionKey       String
+  permissionTableName String
+
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  permission Permission @relation(fields: [permissionKey, permissionTableName], references: [key, tableName], onDelete: Cascade, onUpdate: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([roleId, permissionKey, permissionTableName])
+}
+
+model FolderFile {
+  id        String @id @default(cuid())
+  name      String
+  tableName String
+
+  adminId String
+  admin   Admin  @relation("folders", fields: [adminId], references: [id])
+
+  parentId String?
+  parent   FolderFile?  @relation("children", fields: [parentId], references: [id])
+  children FolderFile[] @relation("children")
+
+  files File[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model File {
+  id            String  @id @default(cuid())
+  name          String
+  mime          String
+  caption       String?
+  url           String
+  width         Int?
+  height        Int?
+  naturalHeight Int?
+  naturalWidth  Int?
+  size          Float
+  tableName     String
+
+  adminId String
+  admin   Admin  @relation("files", fields: [adminId], references: [id])
+
+  folderFileId String?
+  folderFile   FolderFile? @relation(fields: [folderFileId], references: [id])
+
+  admins Admin[] @relation("avatar")
+
+  sceneAudios Scene[]
+  SceneImages Scene[] @relation("image")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model GroupSetting {
+  id        String  @id @default(uuid())
+  name      String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  settings Setting[]
+}
+
+model Setting {
+  id        String  @id @default(uuid())
+  name      String  @unique
+  type      String
+  details   String?
+  value     String?
+  col       Int?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  groupId String
+  group   GroupSetting @relation(fields: [groupId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model AdminHistory {
+  id        Int     @id @default(autoincrement())
+  status    String  // 'succcess' | 'error'
+  action    String  // 'create' | 'edit' | 'delete' | 'upload' | 'login'
+  title     String
+  tableName String?
+  data      String?
+
+  adminId String
+  admin Admin @relation(fields: [adminId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AccessHistory {
+  id     String  @id @default(cuid())
+  device String
+  url    String @default("/")
+  ip     String?
+
+  accessTime  DateTime @default(now())
+  timeToLeave DateTime @default(now())
+}
+
+model GroupScene {
+  id   String @id @default(uuid())
+  name String
+  sort Int?
+
+  scenes Scene[]
+
+  publish   String   @default("publish") // or draft
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Scene {
+  id                    String  @id @default(uuid())
+  url                   String
+  slug                  String  @unique
+  name                  String
+  levels                String
+  faceSize              Int
+  initialViewParameters String
+  description           String?
+  sort                  Int?
+
+  imageId String?
+  image   File?   @relation("image", fields: [imageId], references: [id])
+
+  audioId String?
+  audio   File?   @relation(fields: [audioId], references: [id])
+
+  groupId String?
+  group   GroupScene? @relation(fields: [groupId], references: [id])
+
+  infoHotspots InfoHotspot[]
+  linkHotspots LinkHotspot[]
+
+  publish   String   @default("publish") // or draft
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model InfoHotspot {
+  id          String  @id @default(uuid())
+  yaw         Float
+  pitch       Float
+  direction   String?
+  title       String?
+  description String?
+  image       String?
+  type        String?
+  video       String?
+
+  sceneId String
+  scene   Scene  @relation(fields: [sceneId], references: [id])
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model LinkHotspot {
+  id        String  @id @default(uuid())
+  yaw       Float
+  pitch     Float
+  direction String?
+  target    String
+  type      String?
+
+  sceneId String
+  scene   Scene  @relation(fields: [sceneId], references: [id])
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

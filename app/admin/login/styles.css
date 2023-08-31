@@ -1,0 +1,6 @@
+.bg-0 {
+  @apply border-none;
+}
+.bg-0:focus {
+  @apply border-none;
+}

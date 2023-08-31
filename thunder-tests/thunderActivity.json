@@ -1,0 +1,77 @@
+[
+  {
+    "_id": "12e8c6cb-f0f6-47c9-bc41-18f8ac517ef8",
+    "colId": "history",
+    "containerId": "",
+    "name": "https://dulichthongminhthainguyen.vn/api/v1/auth/login",
+    "url": "https://dulichthongminhthainguyen.vn/api/v1/auth/login",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2023-04-27T00:46:58.169Z",
+    "modified": "2023-04-27T00:47:17.000Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [
+        {
+          "name": "email",
+          "value": "viet.hung.2898@gmail.com"
+        },
+        {
+          "name": "password",
+          "value": "password"
+        }
+      ]
+    },
+    "tests": []
+  },
+  {
+    "_id": "b9df44f2-79f2-4392-915a-8af8e33127fb",
+    "colId": "history",
+    "containerId": "",
+    "name": "https://dulichthongminhthainguyen.vn/5000/api/group_messages",
+    "url": "https://dulichthongminhthainguyen.vn/5000/api/group_messages",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2023-04-27T00:48:04.258Z",
+    "modified": "2023-04-27T07:56:37.082Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [
+        {
+          "name": "token",
+          "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZHVsaWNodGhvbmdtaW5odGhhaW5ndXllbi52blwvYXBpXC92MVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2ODI1ODIwNzIsImV4cCI6MTY4MzE4Njg3MiwibmJmIjoxNjgyNTgyMDcyLCJqdGkiOiJpcXlnNWtVT1JYTUM2Wkg5Iiwic3ViIjoxNywicHJ2IjoiMWQwYTAyMGFjZjVjNGI2YzQ5Nzk4OWRmMWFiZjBmYmQ0ZThjOGQ2MyJ9.3FstIFkR2H8l8dziSh0twJHj"
+        }
+      ]
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZHVsaWNodGhvbmdtaW5odGhhaW5ndXllbi52blwvYXBpXC92MVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2ODI1ODE2MzUsImV4cCI6MTY4MzE4NjQzNSwibmJmIjoxNjgyNTgxNjM1LCJqdGkiOiJWaUlNVVN6ZXlzaGZRaktKIiwic3ViIjoxNywicHJ2IjoiMWQwYTAyMGFjZjVjNGI2YzQ5Nzk4OWRmMWFiZjBmYmQ0ZThjOGQ2MyJ9.lChqMkMmA8Z3udPiZ_u8gL1BObBZU"
+    },
+    "tests": []
+  },
+  {
+    "_id": "3c76c21d-b033-4920-a966-52d64283b16e",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:3000/api/auth/login",
+    "url": "http://localhost:3000/api/auth/login",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2023-04-28T08:07:49.751Z",
+    "modified": "2023-04-28T08:37:14.562Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{}",
+      "form": []
+    },
+    "tests": []
+  }
+]
