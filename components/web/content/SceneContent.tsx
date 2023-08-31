@@ -89,7 +89,6 @@ const SceneContent = ({
             height={1080}
             priority={true}
             className="w-full h-full object-cover"
-            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 70vw, 100vw"
           />
 
           <div className="absolute w-full h-full left-0 top-0 flex flex-col items-center justify-center gap-8">
