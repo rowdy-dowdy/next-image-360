@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import * as fs from 'fs/promises';
 import { existsSync, mkdirSync, createReadStream } from "fs";
+import { extname } from "path";
+import mime from "mime-types";
 
 export async function GET(request: Request, { params } : { params: {filename: string | string[]} }) {
   try {
@@ -15,8 +17,15 @@ export async function GET(request: Request, { params } : { params: {filename: st
 
     const fileStream = await fs.readFile(filepath)
 
+    const file_extension = extname(filepath);
+    const mimeName = mime.lookup(file_extension)
 
-    return new Response(fileStream);
+    return new Response(fileStream, {
+      headers: {
+        'Content-Type': mimeName || '',
+        'Cache-Control': 'public, max-age=86400'
+      }
+    });
   }
   catch (e) {
     console.log(e)

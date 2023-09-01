@@ -35,7 +35,7 @@ const ScenesScreen = () => {
 
   const { start, scenes, viewer, setViewer, videoShow, setVideoShow } = useScene()
 
-  const [sceneSlug, setSceneSlug] = useState<string>()
+  const [sceneSlug, setSceneSlug] = useState<string | undefined>(pathname?.split('/')[1])
   const viewerHTML = useRef<HTMLDivElement>(null)
   const markersPlugin = useRef<MarkersPlugin>()
   const autoRotate = useRef<AutorotatePlugin>()

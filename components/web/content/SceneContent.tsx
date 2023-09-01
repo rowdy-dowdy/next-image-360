@@ -55,10 +55,11 @@ const SceneContent = ({
   return (
     <>
       <style global jsx>
-        {`body {
+        {`html, body {
           width: 100%;
           height: 100%;
           overflow: hidden;
+          position: relative;
         }`}
       </style>
 
@@ -92,12 +93,10 @@ const SceneContent = ({
           />
 
           <div className="absolute w-full h-full left-0 top-0 flex flex-col items-center justify-center gap-8">
-            <Button 
-              size="large" 
-              variant="contained" 
-              className="!rounded-full !bg-gradient-to-r !from-cyan-500 !to-blue-500" 
-              onClick={() => setStartCompleted(true)}
-            >Bắt đầu tham quan</Button>
+            <button 
+              className="!rounded-full !bg-gradient-to-r !from-cyan-500 !to-blue-500 px-6 py-3 text-white md:text-lg shadow" 
+              onClick={(e) => setStartCompleted(true)}
+            >Bắt đầu tham quan</button>
           </div>
         </motion.div>
         : null

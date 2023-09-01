@@ -70,11 +70,11 @@ const LeftSideScene = ({
   }
 
   useEffect(() => {
-    if (listScene.current) {
-      new SimpleBar(listScene.current)
-    }
+    // if (listScene.current) {
+    //   new SimpleBar(listScene.current)
+    // }
 
-    window.ResizeObserver = ResizeObserver
+    // window.ResizeObserver = ResizeObserver
   }, [])
 
   return (
@@ -153,52 +153,56 @@ const LeftSideScene = ({
                       initial={{ x: -280 }}
                       animate={{ x: 0 }}
                       exit={{ x: -280 }}
-                      className="w-full h-full pointer-events-auto"
+                      className="w-full h-full flex flex-col"
                     >
-                      <div className="flex flex-col text-white divide-y divide-black/20">
-                        { sceneFilter.length > 0
-                          ? sceneFilter.map(v =>
-                            <div key={v.id} className={`flex py-0.5 md:py-2 space-x-2 items-center cursor-pointer pointer-events-auto
-                              hover:text-teal-300 ${sceneSlug == v.slug ? 'text-teal-300' : ''}`}
-                              onClick={() => clickGroupScene(v.slug)}
-                            >
-                              <span className="flex-grow" style={{textShadow: "rgb(0, 0, 0) 1px 1px 4px"}}>{v.name}</span>
-                              <span className="flex-none material-symbols-outlined">
-                                chevron_right
-                              </span>
-                            </div>
-                          )
-                          : <div className="py-0.5 md:py-2">Không có bối cảnh nào</div>
-                        }
+                      <div className="w-full pointer-events-auto overflow-y-auto">
+                        <div className="flex flex-col text-white divide-y divide-black/20">
+                          { sceneFilter.length > 0
+                            ? sceneFilter.map(v =>
+                              <div key={v.id} className={`flex py-0.5 md:py-2 space-x-2 items-center cursor-pointer pointer-events-auto
+                                hover:text-teal-300 ${sceneSlug == v.slug ? 'text-teal-300' : ''}`}
+                                onClick={() => clickGroupScene(v.slug)}
+                              >
+                                <span className="flex-grow" style={{textShadow: "rgb(0, 0, 0) 1px 1px 4px"}}>{v.name}</span>
+                                <span className="flex-none material-symbols-outlined">
+                                  chevron_right
+                                </span>
+                              </div>
+                            )
+                            : <div className="py-0.5 md:py-2">Không có bối cảnh nào</div>
+                          }
+                        </div>
                       </div>
                     </motion.div>
                     : null
                   }
                 </AnimatePresence>
 
-                <div className={`w-full h-full absolute top-0 left-0 pointer-events-auto transition-all ease-linear ${showGroupScene ? '!left-[300px]' : ''}`}>
-                  <div ref={listScene} className="w-full h-full overflow-x-hidden overflow-y-auto">
-                    <div className="flex flex-col text-white"
-                      onMouseLeave={() => leaveSceneTitle()}
-                    >
-                      {/* { new Array(5).fill(0).map((v,i) => 
-                        <div key={i} className="flex py-1 space-x-2 items-center cursor-pointer group transition-all duration-[0.4s] origin-left hover:scale-[1.2] pointer-events-auto"
-                          onMouseEnter={() => enterSceneTitle(v)}
-                          onClick={() => clickSceneTitle(v)}
-                        >
-                          <div className={`w-1 h-7 md:h-9 bg-white group-hover:bg-sky-600 ${currentScene?.groupId == v ? '!bg-sky-600' : ''}`}></div>
-                          <span className="group-hover:text-teal-300" style={{textShadow: "rgb(0, 0, 0) 1px 1px 4px"}}>{v}</span>
-                        </div>
-                      )} */}
-                      { groups.map(v => 
-                        <div key={v.id} className="flex py-1 space-x-2 items-center cursor-pointer group transition-all duration-[0.4s] origin-left hover:scale-[1.2] pointer-events-auto"
-                          onMouseEnter={() => enterSceneTitle(v)}
-                          onClick={() => clickSceneTitle(v)}
-                        >
-                          <div className={`w-1 h-7 md:h-9 bg-white group-hover:bg-sky-600 ${currentScene?.groupId == v.id ? '!bg-sky-600' : ''}`}></div>
-                          <span className="group-hover:text-teal-300" style={{textShadow: "rgb(0, 0, 0) 1px 1px 4px"}}>{v.name}</span>
-                        </div>
-                      )}
+                <div className={`w-full h-full absolute top-0 left-0 transition-all ease-linear flex flex-col ${showGroupScene ? '!left-[300px]' : ''}`}>
+                  <div className="w-full overflow-x-hidden overflow-y-auto pointer-events-auto">
+                    <div ref={listScene} className="w-full overflow-hidden">
+                      <div className="flex flex-col text-white"
+                        onMouseLeave={() => leaveSceneTitle()}
+                      >
+                        {/* { new Array(5).fill(0).map((v,i) =>
+                          <div key={i} className="flex py-1 space-x-2 items-center cursor-pointer group transition-all duration-[0.4s] origin-left hover:scale-[1.2] pointer-events-auto"
+                            onMouseEnter={() => enterSceneTitle(v)}
+                            onClick={() => clickSceneTitle(v)}
+                          >
+                            <div className={`w-1 h-7 md:h-9 bg-white group-hover:bg-sky-600 ${currentScene?.groupId == v ? '!bg-sky-600' : ''}`}></div>
+                            <span className="group-hover:text-teal-300" style={{textShadow: "rgb(0, 0, 0) 1px 1px 4px"}}>{v}</span>
+                          </div>
+                        )} */}
+                        { groups.map(v =>
+                          <div key={v.id} className="flex py-1 space-x-2 items-center cursor-pointer group transition-all duration-[0.4s] origin-left hover:scale-[1.2] pointer-events-auto"
+                            onMouseEnter={() => enterSceneTitle(v)}
+                            onClick={() => clickSceneTitle(v)}
+                          >
+                            <div className={`w-1 h-7 md:h-9 bg-white group-hover:bg-sky-600 ${currentScene?.groupId == v.id ? '!bg-sky-600' : ''}`}></div>
+                            <span className="group-hover:text-teal-300" style={{textShadow: "rgb(0, 0, 0) 1px 1px 4px"}}>{v.name}</span>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -307,7 +307,7 @@ const BarOptionsScene = ({
               transition={{duration: .3}}
               className="absolute w-screen right-0 bottom-0 sm:right-4 sm:bottom-16 sm:w-80 max-h-[24rem] z-10 rounded bg-gray-50 shadow-sm flex flex-col items-center pointer-events-auto text-white"
             >
-              <div className="w-full flex-grow min-h-0 py-4 px-4 overflow-y-auto whitespace-pre-wrap custom-bar"
+              <div className="w-full flex-grow min-h-0 py-4 px-4 overflow-y-auto whitespace-pre-wrap custom-bar text-[#222]"
                 dangerouslySetInnerHTML={{__html: currentScene?.description || "Chưa có mô tả"}}
               >
               </div>
