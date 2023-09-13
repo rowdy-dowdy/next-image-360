@@ -73,7 +73,16 @@ export const useCurrentUserAdmin = async (request?: NextRequest) => {
 export const logoutUserAdmin = async () => {
   'use server'
 
-  const adminId = cookies().get('token-admin')?.value
+  const cookie = cookies().get('token-admin')?.value
+
+  let adminId = null
+
+    if (cookie) {
+      let temp = await verifyToken(cookie)
+      if (temp?.payload.sub) {
+        adminId = temp.payload.sub
+      }
+    }
 
   if (adminId) {
     await createHistoryAdmin({
