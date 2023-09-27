@@ -4,7 +4,9 @@
     "dev": "next dev",
     "dev2": "next dev --turbo",
     "build": "next build",
-    "start": "next start -p 5173",
+    "start": "next start",
+    "start2": "next start -p 5173",
+    "start3": "NODE_ENV=production node server.js",
     "lint": "next lint",
     "format": "prettier --write \"**/*.{js,ts,tsx,md}\"",
     "seed": "npx ts-node-esm ./prisma/seed.ts"
@@ -67,6 +69,7 @@
     "swiper": "9.2.4",
     "tailwind-merge": "1.14.0",
     "tinymce": "6.6.2",
+    "ts-node": "10.9.1",
     "use-count-up": "3.0.1",
     "useragent": "2.3.0",
     "uuid": "9.0.0",

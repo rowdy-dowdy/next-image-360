@@ -1,0 +1,9 @@
+{
+  "apps": [
+    {
+      "name": "vr360",
+      "script": "npm",
+      "args": "run start2"
+    }
+  ]
+}

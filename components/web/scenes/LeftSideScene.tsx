@@ -85,7 +85,7 @@ const LeftSideScene = ({
         { showSceneDemo || showGroupScene
           ? <motion.div 
             className="absolute top-0 left-0 w-full h-full bg-gradient-to-r 
-            from-black/60 via-transparent to-black/60 z-10"
+            from-black/60 via-transparent to-black/60 z-50 pointer-events-none"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

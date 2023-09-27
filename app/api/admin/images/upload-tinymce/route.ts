@@ -1,9 +1,9 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { v4 } from 'uuid';
 import sharp from 'sharp';
 import { existsSync, mkdirSync } from 'fs';
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest): Promise<any> {
   try {
     const data = await request.formData()
     const file = data.get('file') as File
@@ -12,11 +12,16 @@ export async function POST(request: Request) {
       mkdirSync('./storage', { recursive: true });
     }
   
-    const compress = {
+    const sharpCompress = {
       'png': {compressionLevel: 8, quality: 60},
       'jpeg': { quality: 60 },
       'webp': { quality: 60 },
-      'gif': { }
+      'gif': {},
+      'jp2': {},
+      'tiff': {},
+      'avif': {},
+      'heif': {},
+      'jxl': {}
     }
      
     // let fileData = sharp(fileMin)
@@ -27,7 +32,7 @@ export async function POST(request: Request) {
     let name = v4() + "." + metadata.format
     let fileUrl = `./storage/tiny-mce/${name}`
   
-    if (Object.keys(compress).findIndex(v => v == metadata.format) < 0) {
+    if (Object.keys(sharpCompress).findIndex(v => v == metadata.format) < 0) {
       throw "Không phải định dạng ảnh"
     }
   
