@@ -3,7 +3,7 @@ import { FormControl, FormHelperText, MenuItem, Select, SelectChangeEvent } from
 import React, { useState } from 'react'
 
 type State = {
-  label?: string,
+  label?: string | null,
   name?: string
   required?: boolean,
   defaultValue?: any,

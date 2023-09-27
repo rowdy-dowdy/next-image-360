@@ -82,3 +82,12 @@ export function exclude(data: any, ...keys: any) {
   }
   return data
 }
+
+export const parseDataInString = (str?: string | null) => {
+  try {
+    if (!str) return str
+    return JSON.parse(str)
+  } catch (error) {
+    return str
+  }
+}

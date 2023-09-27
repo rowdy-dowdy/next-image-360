@@ -1,7 +1,7 @@
 import { findSettingByName } from '@/lib/admin/fields';
 import { getSettingsData } from '@/lib/admin/sample';
 import { Metadata, ResolvingMetadata } from 'next';
-import React from 'react';
+import { ReactNode } from "react";
 
 export async function generateMetadata(
   parent?: ResolvingMetadata
@@ -39,7 +39,7 @@ export async function generateMetadata(
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return children;
 }

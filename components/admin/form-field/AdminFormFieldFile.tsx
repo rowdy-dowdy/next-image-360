@@ -6,7 +6,7 @@ import FilesSlide from './image/FileSlide';
 import { FileTypeState } from '@/lib/admin/sample';
 
 type AdminFormFieldFileType = {
-  label?: string,
+  label?: string | null,
   name?: string
   required?: boolean,
   defaultValue?: File[] | File | null,

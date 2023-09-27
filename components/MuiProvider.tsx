@@ -1,7 +1,9 @@
 'use client'
 
 import { createTheme, alpha, getContrastRatio } from "@mui/material/styles";
-import { ThemeProvider, CssBaseline } from '@mui/material'
+// import { ThemeProvider, CssBaseline } from '@mui/material'
+import ThemeProvider  from "@mui/material/styles/ThemeProvider";
+import CssBaseline from "@mui/material/CssBaseline";
 import React, { useEffect, useRef } from "react";
 import { Roboto } from 'next/font/google'
 import { SnackbarProvider } from "notistack";
@@ -37,8 +39,8 @@ export const lightTheme = createTheme({
     }
   },
   typography: {
-    fontFamily: ''
-    // fontFamily: font.style.fontFamily
+    // fontFamily: ''
+    fontFamily: font.style.fontFamily
   }
 })
 

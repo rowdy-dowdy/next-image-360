@@ -9,50 +9,53 @@ import { checkPermissions } from '@/lib/admin/fields'
 
 type GroupType = {
   name: string,
+  label?: string,
   settings: ({
     name: string,
+    label?: string,
     col?: number
   } & SampleFieldAndDetailsType)[]
 }
 
 const GROUPS: GroupType[] = [
   { name: "Site", settings: [
-    { name: 'site title', type: 'string' },
-    { name: 'site description', type: 'string' },
-    { name: 'site logo', type: 'file', details: {
+    { name: 'site title', label: 'Tiêu đề', type: 'string' },
+    { name: 'site description', label: 'Mô tả', type: 'string' },
+    { name: 'site logo', label: 'logo', type: 'file', details: {
       multiple: false,
       onlyTable: true,
       fileTypes: ['image']
     }},
-    { name: 'site favicon', type: 'file', details: {
+    { name: 'site favicon', label: 'Favicon', type: 'file', details: {
       multiple: false,
       onlyTable: true,
       fileTypes: ['image']
     }},
-    { name: 'banner', type: 'file', details: {
+    { name: 'banner', label: 'Banner', type: 'file', details: {
       multiple: false,
       onlyTable: true,
       fileTypes: ['image']
     }, col: 4},
-    { name: 'so do', type: 'file', details: {
+    { name: 'so do', label: 'Sơ đồ', type: 'file', details: {
       multiple: false,
       onlyTable: true,
       fileTypes: ['image']
     }, col: 4 },
-    { name: 'main audio', type: 'file', details: {
+    { name: 'main audio', label: 'Nhạc nền', type: 'file', details: {
       multiple: false,
       onlyTable: true,
       fileTypes: ['audio']
     }, col: 4},
   ] },
   { name: "Admin", settings: [
-    { name: 'admin title', type: 'string' },
-    { name: 'admin description', type: 'string' },
-    { name: 'admin logo', type: 'file', details: {
+    { name: 'admin title', label: 'Tiêu đề trang quản trị', type: 'string' },
+    { name: 'admin description', label: 'Mô tả trang quản trị', type: 'string' },
+    { name: 'admin logo', label: 'logo trang quản trị', type: 'file', details: {
       multiple: false,
       onlyTable: true,
       fileTypes: ['image']
     } },
+    { name: 'preview mode', label: 'Chế độ xem trước', type: 'bool' },
   ] }
 ]
 
@@ -68,6 +71,9 @@ const getData = async () => {
   const data = await db.groupSetting.findMany({
     include: {
       settings: true
+    },
+    orderBy: {
+      sort: 'asc'
     }
   })
 
@@ -76,8 +82,10 @@ const getData = async () => {
     settings: await getValueSettings(v.settings)
 
   })) as any[] as GroupSettingType[])
+
+  const groupSettingsFormat = groupSettings.map(v => ({...v, settings: v.settings.sort((a, b) => (a?.sort || 0) - (b?.sort || 0))}))
  
-  return groupSettings
+  return groupSettingsFormat
 }
 
 const createEditSetting = async () => {
@@ -95,16 +103,20 @@ const createEditSetting = async () => {
     await db.groupSetting.deleteMany()
 
     await db.$transaction(
-      GROUPS.map(v => db.groupSetting.create({
+      GROUPS.map((v,i) => db.groupSetting.create({
         data: {
           name: v.name,
+          label: v.label,
+          sort: i + 1,
           settings: {
-            create: v.settings.map(v2 => ({
+            create: v.settings.map((v2,i2) => ({
               name: v2.name,
+              label: v2.label,
               type: v2.type,
               col: v2.col,
               details: JSON.stringify(v2.details),
-              value: oldSettings.find(v3 => v3.name == v2.name)?.value
+              value: oldSettings.find(v3 => v3.name == v2.name)?.value,
+              sort: i2 + 1
             }))
           }
         }

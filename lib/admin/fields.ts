@@ -15,12 +15,12 @@ export type DataFieldType = Record<SampleFieldAndDetailsType['type'], {
   fieldName: string,
   icon: string,
   Component: React.FC<{
-    label?: string,
+    label?: string | null,
     name?: string
     required?: boolean,
     defaultValue?: any,
     value?: any,
-    // onChange?: (data: any) => void
+    onChange?: (data: any) => void
     className?: string,
     details: any
   }> | null
@@ -40,8 +40,8 @@ export const DATA_FIELDS: DataFieldType = {
   'password': { fieldName: "Password", icon: 'key', Component: AdminFormFieldPassword },
 }
 
-export const findSettingByName = (arr: any[], name: string) : any | undefined => {
-  return arr.find(v => v.name == name)?.value || undefined
+export const findSettingByName = (arr: any[], name: string) => {
+  return arr.find(v => v.name == name)?.value ?? undefined
 }
 
 export const checkPermissions = (permission: PermissionsOnRoles[], tableName: string, 

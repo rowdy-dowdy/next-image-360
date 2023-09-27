@@ -5,6 +5,8 @@ import { findSettingByName } from '@/lib/admin/fields';
 import db from '@/lib/admin/prismadb';
 import { InitialViewParametersState, LevelsState, SceneDataState } from '../admin/(admin)/scenes/page';
 import SceneContent from '@/components/web/content/SceneContent';
+import { useCurrentUserAdmin } from '@/lib/admin/helperServer';
+import PreviewWithAuth from '@/components/web/content/PreviewWithAuth';
 
 export async function generateMetadata(
   parent?: ResolvingMetadata
@@ -93,6 +95,16 @@ const getData = async () => {
 }
 
 const layout = async ({children}: {children: ReactNode}) => {
+  const settings = await getSettingsData()
+  const previewWhenLogging = findSettingByName(settings, "preview mode") as boolean | null
+
+  if (previewWhenLogging) {
+    const user = await useCurrentUserAdmin()
+
+    if (!user) {
+      return <PreviewWithAuth />
+    }
+  }
 
   const {scenes, groups} = await getData()
 

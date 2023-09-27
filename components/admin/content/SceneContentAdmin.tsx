@@ -59,7 +59,7 @@ const SceneContentAdmin = ({
         </div>
       </div>
 
-      <SceneAddModal scene={sceneEdit} setScene={setSceneEdit} open={openModalAdd} setOpen={setOpenModalAdd} />
+      <SceneAddModal scene={sceneEdit} setScene={setSceneEdit} open={openModalAdd} setOpen={setOpenModalAdd} count={scenes.length} />
     </div>
   )
 }

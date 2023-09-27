@@ -47,7 +47,7 @@ const MenuAdmin = ({
         <Link href={"/"} className="flex-none w-full h-16 flex items-center overflow-hidden border-b">
           <div className='flex-none grid place-items-center' style={{width: "52px"}}>
             <Image
-              src={`/${findSettingByName('admin logo') || 'admin-logo.png'}`}
+              src={`${findSettingByName('admin logo')?.url || 'admin-logo.png'}`}
               alt="Picture of the admin logo"
               width={50}
               height={50}

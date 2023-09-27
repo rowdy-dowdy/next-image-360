@@ -31,6 +31,7 @@ const ListScene = ({
   const [stages, setStages] = useState(scenes.map(v => v.id))
 
   useEffect(() => {
+    setScenesFilter(scenes.filter(v => removeAccents(v.name.toLowerCase()).indexOf(removeAccents(search.toLowerCase())) >= 0))
     setStages(scenes.map(v => v.id))
   }, [scenes])
   

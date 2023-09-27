@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -172,6 +172,8 @@ model File {
 model GroupSetting {
   id        String  @id @default(uuid())
   name      String
+  label     String?
+  sort      Int?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -182,10 +184,12 @@ model GroupSetting {
 model Setting {
   id        String  @id @default(uuid())
   name      String  @unique
+  label     String?
   type      String
   details   String?
-  value     String?
+  value     String? @db.Text
   col       Int?
+  sort      Int?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -200,7 +204,7 @@ model AdminHistory {
   action    String  // 'create' | 'edit' | 'delete' | 'upload' | 'login'
   title     String
   tableName String?
-  data      String?
+  data      String? @db.Text
 
   adminId String
   admin Admin @relation(fields: [adminId], references: [id])
@@ -239,7 +243,7 @@ model Scene {
   levels                String
   faceSize              Int
   initialViewParameters String
-  description           String?
+  description           String? @db.Text
   sort                  Int?
 
   imageId String?
@@ -265,7 +269,7 @@ model InfoHotspot {
   pitch       Float
   direction   String?
   title       String?
-  description String?
+  description String? @db.Text
   image       String?
   type        String?
   video       String?

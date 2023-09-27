@@ -2,7 +2,7 @@
 import React from 'react'
 
 type State = {
-  label?: string,
+  label?: string | null,
   name?: string
   required?: boolean,
   defaultValue?: string,

@@ -5,6 +5,7 @@ import { createHistoryAdmin, useCurrentUserAdmin } from "./helperServer";
 import db from "./prismadb"
 import bcrypt from 'bcrypt'
 import { checkPermissions } from "./fields";
+import { parseDataInString } from "../utils/helper";
 
 export type SampleColumnsType = {
   name: string,
@@ -18,9 +19,10 @@ export type SampleFieldAndDetailsType = (
   SampleColumnSelectType | 
   SampleColumnReactionType |
   SampleColumnFileType |
+  SampleColumnBoolType |
   // SampleColumnPermissionsType |
   {
-    type: 'string' | 'date' | 'publish' | 'int' | 'bool' | 'text' | 'permissions' | 'password',
+    type: 'string' | 'date' | 'publish' | 'int' | 'text' | 'permissions' | 'password',
     details?: undefined
   }
 )
@@ -30,6 +32,14 @@ export type SampleColumnSelectType = {
   details: {
     list: { title: string, value: string}[]
     multiple?: boolean,
+  }
+}
+
+export type SampleColumnBoolType = {
+  type: 'bool',
+  details?: {
+    topTitle: boolean,
+    rightTitle: boolean
   }
 }
 
@@ -423,7 +433,8 @@ export const getValueSettings = async (settings: Setting[]) => {
 
     return {
       ...v2,
-      details: v2.details ? JSON.parse(v2.details) : {}
+      value: parseDataInString(v2.value),
+      details: v2.details ? JSON.parse(v2.details) : null
     }
   }))
 }

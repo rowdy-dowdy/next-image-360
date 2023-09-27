@@ -5,7 +5,7 @@ import { VariantType, enqueueSnackbar } from 'notistack'
 import React, { useEffect, useState, useRef, Dispatch, SetStateAction } from 'react'
 
 type State = {
-  label?: string,
+  label?: string | null,
   name?: string
   required?: boolean,
   defaultValue?: any,

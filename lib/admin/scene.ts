@@ -32,6 +32,7 @@ export const addEditScene = async (data: FormData) => {
       group = data.get('group') as string,
       description = data.get('description') as string,
       publish = data.get('publish') as string | undefined,
+      count = data.get('count') as string | undefined,
       id = data.get('id') as string | undefined
 
     if (!(id ? checkPermissions(user.role.permissions, "scene", "edit") 
@@ -85,7 +86,7 @@ export const addEditScene = async (data: FormData) => {
       })
     
       // save image low
-      await imageSharp.clone().resize({ width: 2000 }).jpeg({ quality: 60, force: true, mozjpeg: true }).toFile(`./storage/tiles/${uuid}/low.jpg`)
+      await imageSharp.clone().resize({ width: 2048, height: 1024 }).jpeg({ quality: 60, force: true, mozjpeg: true }).toFile(`./storage/tiles/${uuid}/low.jpg`)
   
       // create fisheye image
       await new Promise(res => res(equirectangularToFisheye(imageSharp.clone(), 512, `./storage/tiles/${uuid}/fisheye.png`)))
@@ -123,7 +124,8 @@ export const addEditScene = async (data: FormData) => {
       await db.scene.create({
         data: {
           ...dataCreate,
-          initialViewParameters: JSON.stringify(dataCreate.initialViewParameters)
+          initialViewParameters: JSON.stringify(dataCreate.initialViewParameters),
+          sort: count ? +count : 9999
         }
       })
 

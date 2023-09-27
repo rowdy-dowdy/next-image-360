@@ -1,6 +1,5 @@
 import { styled } from "@mui/material/styles";
 import { FormControlLabel, Switch, SwitchProps } from '@mui/material'
-import React from 'react'
 
 const IOSSwitch = styled((props: SwitchProps) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -60,7 +59,7 @@ type ComponentType = {
   checked?: boolean,
   onChange?: (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => void
   size?: "small" | "medium",
-  label?: string,
+  label?: string | null,
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>
   name?: string,
   className?: string,
@@ -85,6 +84,7 @@ const FormIOSSwitch: React.FC<ComponentType> = ({
         inputProps={inputProps} sx={{ m: 1 }} 
         defaultChecked={defaultValue} size={size} 
       />}
+      value="true"
       label={label}
       style={{userSelect: 'none'}}
       className={className}

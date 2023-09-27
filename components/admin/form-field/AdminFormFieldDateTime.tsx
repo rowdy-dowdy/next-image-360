@@ -2,7 +2,7 @@
 import React, { useRef } from 'react'
 
 type State = {
-  label?: string,
+  label?: string | null,
   name?: string
   required?: boolean,
   className?: string,

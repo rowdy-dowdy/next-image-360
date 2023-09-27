@@ -3,7 +3,7 @@ import FormIOSSwitch from '@/components/FormIOSSwitch'
 import { ChangeEvent } from 'react'
 
 type State = {
-  label?: string,
+  label?: string | null,
   name?: string
   required?: boolean,
   className?: string,
@@ -11,6 +11,10 @@ type State = {
   defaultValue?: any,
   value?: boolean,
   onChange?: (e: ChangeEvent<HTMLInputElement>, checked: boolean) => void,
+  details?: {
+    topTitle: boolean,
+    rightTitle: boolean
+  }
 }
 
 const AdminFormFieldBool = ({
@@ -21,7 +25,11 @@ const AdminFormFieldBool = ({
   placeholder,
   defaultValue,
   value,
-  onChange
+  onChange,
+  details = {
+    topTitle: true,
+    rightTitle: false
+  }
 }: State) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
@@ -31,7 +39,13 @@ const AdminFormFieldBool = ({
   }
 
   return (
-    <FormIOSSwitch checked={value} defaultValue={defaultValue} onChange={handleChange} inputProps={{ 'aria-label': 'controlled' }} name={name} label={label} />
+    <div className={className}>
+      { label && details.topTitle
+        ? <p className="text-sm font-medium mb-1 capitalize">{label} { required && <span className="text-red-500">*</span> }</p>
+        : null
+      }
+      <FormIOSSwitch checked={value} defaultValue={defaultValue} onChange={handleChange} inputProps={{ 'aria-label': 'controlled' }} name={name} label={details.rightTitle ? label : undefined} />
+    </div>
   )
 }
 

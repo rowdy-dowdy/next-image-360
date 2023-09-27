@@ -101,22 +101,24 @@ const ScenesScreen = () => {
         image = undefined,
         size = { width: 0, height: 0 }
 
+      const scene = findSceneDataById(hotspot.target)
+
       if (hotspot?.type == "2") {
-        tooltip = findSceneDataById(hotspot.target)?.name || ""
+        tooltip = scene?.name || ""
         image = '/images/flycam.png'
         size = { width: 96, height: 96 }
       }
       else if (hotspot?.type == "3") {
-        tooltip = findSceneDataById(hotspot.target)?.name || ""
+        tooltip = scene?.name || ""
         image = '/images/arrow.png'
         size = { width: 96, height: 96 }
       }
       else if (hotspot?.type == "4") {
-        html = renderToString(LinkHotSpot4({title: findSceneDataById(hotspot.target)?.name || ""}))
+        html = renderToString(LinkHotSpot4({title: scene?.name || ""}))
       }
       else {
         html = renderToString(LinkHotSpot({
-          title: findSceneDataById(hotspot.target)?.name || "", 
+          title: scene?.name || "", 
           image: `/storage/tiles/${hotspot.target}/fisheye.png`,
           logo: logo?.url
         }))
@@ -131,7 +133,7 @@ const ScenesScreen = () => {
         anchor: 'center',
         data: {
           type: 'link',
-          target: hotspot.target
+          target: scene?.slug
         },
         tooltip: tooltip,
         className: "psv-marker--custom"
@@ -309,8 +311,9 @@ const ScenesScreen = () => {
 
     markersPlugin.current.addEventListener('select-marker', ({ marker }) => {
       if (marker.data?.type == "link" && marker.data?.target) {
-        if (marker.data?.target)
-          setSceneSlug(marker.data.target)
+        if (marker.data?.target) {
+          router.push(`/${marker.data.target}`)
+        }
       }
       
       if (marker.data?.type == "info") {

@@ -16,9 +16,10 @@ import { SceneDataState } from "@/app/admin/(admin)/scenes/page";
 import AdminFormFieldBool from "../form-field/AdminFormFieldBool";
 
 const SceneAddModal = ({
-  scene, setScene, open, setOpen
+  scene, setScene, open, setOpen, count
 }: {
   scene: SceneDataState | null,
+  count: number,
   setScene: Dispatch<SetStateAction<SceneDataState | null>>
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>;
@@ -121,6 +122,7 @@ const SceneAddModal = ({
       callback: async () => {
 
         var formData = new FormData(e.target as HTMLFormElement)
+        formData.append('count', count.toString())
 
         await addEditScene(formData)
 

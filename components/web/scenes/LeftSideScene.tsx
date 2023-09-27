@@ -11,9 +11,9 @@ import useSettings from "@/stores/settings";
 import { motion, AnimatePresence } from "framer-motion"
 import { ClickAwayListener } from "@mui/base";
 import Link from "next/link";
-import SimpleBar from 'simplebar';
-import 'simplebar/dist/simplebar.css';
-import ResizeObserver from 'resize-observer-polyfill';
+// import SimpleBar from 'simplebar';
+// import 'simplebar/dist/simplebar.css';
+// import ResizeObserver from 'resize-observer-polyfill';
 
 const LeftSideScene = ({
   sceneSlug, currentScene
@@ -33,8 +33,8 @@ const LeftSideScene = ({
 
   const sceneFilter = groupSelect ? scenes.filter(v => v.groupId == groupSelect) : scenes
 
-  const enterSceneTitle = (group: GroupScene) => {
-    let firstScene = scenes.find(v => v.groupId == group.id)
+  const enterSceneTitle = (group: GroupScene | SceneDataState, type: 'group' | 'scene' = 'group') => {
+    let firstScene = type == 'group' ? scenes.find(v => v.groupId == group.id) : group
 
     if (firstScene) {
       setShowSceneDemImage(`/storage/tiles/${firstScene.id}/front.jpg`)
@@ -156,12 +156,15 @@ const LeftSideScene = ({
                       className="w-full h-full flex flex-col"
                     >
                       <div className="w-full pointer-events-auto overflow-y-auto">
-                        <div className="flex flex-col text-white divide-y divide-black/20">
+                        <div className="flex flex-col text-white divide-y divide-black/20"
+                          onMouseLeave={() => leaveSceneTitle()}
+                        >
                           { sceneFilter.length > 0
                             ? sceneFilter.map(v =>
                               <div key={v.id} className={`flex py-0.5 md:py-2 space-x-2 items-center cursor-pointer pointer-events-auto
                                 hover:text-teal-300 ${sceneSlug == v.slug ? 'text-teal-300' : ''}`}
                                 onClick={() => clickGroupScene(v.slug)}
+                                onMouseEnter={() => enterSceneTitle(v, 'scene')}
                               >
                                 <span className="flex-grow" style={{textShadow: "rgb(0, 0, 0) 1px 1px 4px"}}>{v.name}</span>
                                 <span className="flex-none material-symbols-outlined">

@@ -41,9 +41,18 @@ const SettingContentAdmin: React.FC<State> = ({
       setLoading: setLoading,
       callback: async () => {
 
-        const formData = Array.from(
+        let formData = Array.from(
           new FormData(e.target as HTMLFormElement),
         )
+
+        let listBool = groupActive?.settings.filter(v => v.type == "bool")
+
+        listBool?.forEach(v => {
+          let data = formData.find(v2 => v2[0] == v.name)
+          if (!data) {
+            formData.push([v.name, "false"])
+          }
+        })
 
         await saveSetting(formData)
         router.refresh()
@@ -63,7 +72,7 @@ const SettingContentAdmin: React.FC<State> = ({
                   className={`py-2 capitalize hover:text-blue-500 cursor-pointer 
                     ${v.id == groupActive?.id ? 'border-b-2 border-blue-500 text-blue-500' : ''}`}
                   onClick={() => setGroupActive(v)}
-                >{v.name}</div>
+                >{v.label || v.name}</div>
               )}
             </div>
           </div>
@@ -82,9 +91,9 @@ const SettingContentAdmin: React.FC<State> = ({
                   const Component = DATA_FIELDS[v.type] ? DATA_FIELDS[v.type].Component : null
                   return Component ? <div key={v.id} style={{gridColumn: `span ${v.col || 6} / span ${v.col || 6}`}}>
                     <Component
-                      label={v.name} name={v.name}
+                      label={v.label} name={v.name}
                       required={false} defaultValue={v.value}
-                      details={{...v.details, tableName: 'setting'}}
+                      details={v.details ? {...v.details, tableName: 'setting'} : undefined}
                     />
                   </div> : null
                 })}
