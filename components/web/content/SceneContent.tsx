@@ -89,6 +89,7 @@ const SceneContent = ({
             width={1920}
             height={1080}
             priority={true}
+            loading="eager"
             className="w-full h-full object-cover"
           />
 

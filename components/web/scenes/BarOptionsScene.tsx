@@ -5,7 +5,7 @@ import styles from "./scenes.module.css";
 import { useRouter } from "next/navigation";
 import useScene from "@/stores/web/scene";
 import useSettings from "@/stores/settings";
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { GroupScene } from "@prisma/client";
 import { motion, AnimatePresence } from "framer-motion"
 //@ts-ignore
@@ -20,7 +20,7 @@ const DynamicShareModal = dynamic(() => import('../ShareModal'), {
   loading: () => <p>Đang tải...</p>,
 })
 
-const BarOptionsScene = ({
+const BarOptionsScene = memo(({
   autoRotateCheck, toggleAutoRotate, currentScene
 }: {
   autoRotateCheck: boolean,
@@ -423,6 +423,6 @@ const BarOptionsScene = ({
       <DynamicShareModal open={openShare} setOpen={setOpenShare} />
     </div>
   )
-}
+})
 
 export default BarOptionsScene

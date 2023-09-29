@@ -58,7 +58,7 @@ export const addEditScene = async (data: FormData) => {
       }))?.url
   
       if (sceneBySlug.length > 0 || !imageUrl) {
-        throw { errorText: "Slug đã tồn tại"}
+        throw "Slug đã tồn tại"
       }
   
       const imageSharp = sharp(`.${imageUrl}`, { limitInputPixels: false })

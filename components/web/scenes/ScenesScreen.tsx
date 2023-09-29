@@ -68,6 +68,13 @@ const ScenesScreen = () => {
   const findSceneDataById = (id: string) => scenes.find(v => v.id == id)
 
   async function switchScene(scene: SceneDataState) {
+    // toggleAutoRotate(false)
+
+    await new Promise(res => {
+      markersPlugin.current?.clearMarkers()
+      res(1)
+    })
+
     viewer?.setPanorama({
       width: scene.faceSize,
       cols: 16,
@@ -88,9 +95,13 @@ const ScenesScreen = () => {
 
       // overlay: false
     }).then(v => {
-      markersPlugin.current?.clearMarkers()
+      // markersPlugin.current?.clearMarkers()
       createLinkHotspotElements(scene.linkHotspots)
       createInfoHotspotElements(scene.infoHotspots)
+
+      if (autoRotateCheck) {
+        toggleAutoRotate(true)
+      }
     })
   }
  
@@ -102,6 +113,8 @@ const ScenesScreen = () => {
         size = { width: 0, height: 0 }
 
       const scene = findSceneDataById(hotspot.target)
+
+      if (!scene) return
 
       if (hotspot?.type == "2") {
         tooltip = scene?.name || ""
@@ -226,13 +239,14 @@ const ScenesScreen = () => {
   // start in tro
   useEffect(() => {
     if (start) {
+      console.log(currentScene?.initialViewParameters.yaw)
       intro()
     }
   }, [start])
 
   let animatedValues = {
     pitch: { start: -Math.PI / 2, end: currentScene?.initialViewParameters.pitch || 0.2 },
-    yaw: { start: -1, end: currentScene?.initialViewParameters.yaw || 0 },
+    yaw: { start: ((currentScene?.initialViewParameters.yaw || 0) - 5), end: currentScene?.initialViewParameters.yaw || 0 },
     zoom: { start: 0, end: currentScene?.initialViewParameters.zoom || 50 },
     fisheye: { start: 2, end: 0 },
   }
@@ -289,7 +303,7 @@ const ScenesScreen = () => {
 
       // touchmoveTwoFingers: true,
       panorama: {
-        width: currentScene?.faceSize,
+        width: currentScene?.faceSize || 8192,
         cols: 16,
         rows: 8,
         baseUrl: `/storage/tiles/${currentScene?.id}/low.jpg`,

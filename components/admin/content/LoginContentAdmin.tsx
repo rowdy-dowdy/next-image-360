@@ -23,7 +23,7 @@ const LoginContentAdmin = () => {
           new FormData(e.target as HTMLFormElement),
         )
         
-        const { user } = await loginUserAdmin({
+        await loginUserAdmin({
           email, password, remember
         })
 

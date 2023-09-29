@@ -2,8 +2,9 @@
 
 import useScene from "@/stores/web/scene"
 import { AnimatePresence, motion } from "framer-motion"
+import { memo } from "react"
 
-const VideoShowScene = () => {
+const VideoShowScene = memo(() => {
   const {videoShow, setVideoShow} = useScene()
   return (
     <AnimatePresence>
@@ -24,6 +25,6 @@ const VideoShowScene = () => {
       }
     </AnimatePresence>
   )
-}
+})
 
 export default VideoShowScene

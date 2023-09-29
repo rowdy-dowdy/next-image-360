@@ -2,7 +2,7 @@
 
 import { SceneDataState } from "@/app/admin/(admin)/scenes/page"
 import styles from "./scenes.module.css";
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import useScene from "@/stores/web/scene";
 import { GroupScene } from "@prisma/client";
@@ -15,7 +15,7 @@ import Link from "next/link";
 // import 'simplebar/dist/simplebar.css';
 // import ResizeObserver from 'resize-observer-polyfill';
 
-const LeftSideScene = ({
+const LeftSideScene = memo(({
   sceneSlug, currentScene
 }: {
   sceneSlug?: string, currentScene?: SceneDataState
@@ -65,8 +65,9 @@ const LeftSideScene = ({
   }
 
   const clickGroupScene = (slug: string) => {
-    setShowGroupScene(false)
     router.push(`/${slug}`)
+    setShowGroupScene(false)
+    setShowSceneDemo(false)
   }
 
   useEffect(() => {
@@ -79,19 +80,19 @@ const LeftSideScene = ({
 
   return (
     <div className={styles.leftside}>
-      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black/10 via-transparent to-black/10 z-10 pointer-events-none"></div>
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black/10 via-transparent to-black/10 pointer-events-none"></div>
 
       <AnimatePresence>
         { showSceneDemo || showGroupScene
           ? <motion.div 
             className="absolute top-0 left-0 w-full h-full bg-gradient-to-r 
-            from-black/60 via-transparent to-black/60 z-50 pointer-events-none"
+            from-black/60 via-transparent to-black/60 pointer-events-none"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
             { showSceneDemo
-              ? <div className="hidden w-full h-full md:flex items-center justify-center">
+              ? <div className="hidden w-full h-full md:flex items-center justify-center relative z-50">
                 <div className="w-3/4 max-w-3xl border-4 border-white bg-white">
                   <Image 
                     src={showSceneDemImage} 
@@ -217,6 +218,6 @@ const LeftSideScene = ({
       </div>
     </div>
   )
-}
+})
 
 export default LeftSideScene

@@ -10,7 +10,7 @@ const PreviewWithAuth = () => {
       <div className="relative w-full max-w-md rounded bg-white shadow border p-8 text-gray-600">
         <div className="absolute left-4 top-0 -translate-y-1/2 px-6 py-4 bg-white rounded shadow border font-semibold">Chế độ xem trước</div>
 
-        <p className="mt-2 mb-4">Để truy cập được website này. Vui lòng đăng nhập vào trang quản trị bằng tài khoản quản trị viên Website</p>
+        <p className="mt-2 mb-4">Để truy cập được website này. Vui lòng <span className="font-semibold">đăng nhập</span> bằng tài khoản quản trị viên Website</p>
 
         <Button variant='contained' className='w-full' LinkComponent={Link} href={`/admin/login?url=${pathname}`}>Chuyển đến trang đăng nhập</Button>
       </div>

@@ -99,7 +99,7 @@ const ListScene = ({
 
       <div ref={listRef} className="flex-grow min-h-0 flex flex-col space-y-2 overflow-y-auto px-4">
         { scenesFilter.length > 0 ? scenesFilter.map(v =>
-            <button key={v.id} className={`flex items-center space-x-4 rounded hover:bg-gray-200 px-2 py-2 group ${sceneId == v.id ? 'bg-gray-200' : ''}`}
+            <button key={v.id} className={`flex items-center space-x-4 rounded hover:bg-gray-200 px-2 py-2 group ${v.publish == "draft" ? 'text-gray-500' : ''} ${sceneId == v.id ? 'bg-gray-200' : ''}`}
               onClick={() => setSceneId(v.id)}
             >
               <span className="icon">location_on</span>
