@@ -68,7 +68,7 @@ const ScenesScreen = () => {
   const findSceneDataById = (id: string) => scenes.find(v => v.id == id)
 
   async function switchScene(scene: SceneDataState) {
-    // toggleAutoRotate(false)
+    toggleAutoRotate(false)
 
     await new Promise(res => {
       markersPlugin.current?.clearMarkers()
@@ -239,7 +239,6 @@ const ScenesScreen = () => {
   // start in tro
   useEffect(() => {
     if (start) {
-      console.log(currentScene?.initialViewParameters.yaw)
       intro()
     }
   }, [start])
