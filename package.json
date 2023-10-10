@@ -46,7 +46,7 @@
     "million": "2.5.13",
     "mime-types": "2.1.35",
     "moment": "2.29.4",
-    "next": "13.5.3",
+    "next": "13.5.4",
     "next-auth": "4.22.1",
     "notistack": "3.0.1",
     "p-queue": "7.3.4",

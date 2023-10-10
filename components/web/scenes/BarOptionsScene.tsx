@@ -15,6 +15,7 @@ import Image from "next/image";
 import Link from "next/link";
 import dynamic from 'next/dynamic'
 import ClientOnly from "@/components/ClientOnly";
+import { Tooltip } from "@mui/material";
 
 const DynamicShareModal = dynamic(() => import('../ShareModal'), {
   loading: () => <p>Đang tải...</p>,
@@ -254,26 +255,32 @@ const BarOptionsScene = memo(({
           { nextScene
             ? <>
               { nextGroup
-                ? <Link href={`/${nextScene.slug}`} className="px-4 py-2 rounded-full shadow flex items-center
-                  bg-gradient-to-t from-gray-400 via-gray-200 to-gray-100 text-sm font-semibold"
-                >
-                  {nextGroup.name}
-                  <span className="icon !-mr-2">
-                    navigate_next
-                  </span>
-                </Link>
-              : <Link href={`/${nextScene.slug}`} className="block">
-                  <Image src="/images/tien.svg" alt="icon tien" width={32} height={32} className="w-8 h-8" />
-                </Link>
+                ? <Tooltip title="Điểm đến tiếp" arrow placement="top">
+                  <Link href={`/${nextScene.slug}`} className="px-4 py-2 rounded-full shadow flex items-center
+                    bg-gradient-to-t from-gray-400 via-gray-200 to-gray-100 text-sm font-semibold"
+                  >
+                    {nextGroup.name}
+                    <span className="icon !-mr-2">
+                      navigate_next
+                    </span>
+                  </Link>
+                </Tooltip>
+              : <Tooltip title="Điểm đến tiếp" arrow placement="top">
+                  <Link href={`/${nextScene.slug}`} className="block">
+                    <Image src="/images/tien.svg" alt="icon tien" width={32} height={32} className="w-8 h-8" />
+                  </Link>
+                </Tooltip>
               }
             </>
             : null
           }
 
           { prevScene
-            ? <Link href={`/${prevScene.slug}`} className="block">
-                <Image src="/images/lui.svg" alt="icon tien" width={32} height={32} className="w-8 h-8" />
-              </Link>
+            ? <Tooltip title="Điểm đến trước" arrow placement="bottom">
+              <Link href={`/${prevScene.slug}`} className="block">
+                  <Image src="/images/lui.svg" alt="icon tien" width={32} height={32} className="w-8 h-8" />
+                </Link>
+            </Tooltip>
             : null
           }
         </div>
@@ -325,97 +332,117 @@ const BarOptionsScene = memo(({
         </AnimatePresence>
 
         <div className="flex space-x-4 items-end">
-          <div className="bar-icon"
-            onClick={() => setShowListScene()}
-          >
-            <span className="icon">
-              {showListScene ? 'menu' : 'menu_open'}
-            </span>
-          </div>
-          <div className="bar-icon"
-            onClick={() => setOpenShare(true)}
-          >
-            <span className="icon">share</span>
-          </div>
+          <Tooltip title={showListScene ? 'Ẩn menu' : 'Hiện menu'} arrow placement="top-end">
+            <div className="bar-icon"
+              onClick={() => setShowListScene()}
+            >
+              <span className="icon">
+                {showListScene ? 'menu' : 'menu_open'}
+              </span>
+            </div>
+          </Tooltip>
+          <Tooltip title="Chia sẻ" arrow placement="top">
+            <div className="bar-icon"
+              onClick={() => setOpenShare(true)}
+            >
+              <span className="icon">share</span>
+            </div>
+          </Tooltip>
 
           <div className="!ml-auto"></div>
 
           <div className="relative w-20 h-20 sm:w-32 sm:h-32 select-none pointer-events-auto">
-            <button className="w-full h-full rounded-full"
-              onClick={() => toggleSceneAudio()}
-            >
-              <Image 
-                src={`/images/${sceneAudioCheck ? 'voice_on.png' : 'voice_off.png'}`} 
-                width={128}
-                height={128}
-                alt="ảnh bật tắt âm thanh" 
-                className="w-full h-full"
-              />
-            </button>
+            <Tooltip title={sceneAudioCheck ? 'Tắt giọng đọc': 'Mở giọng đọc'} arrow placement="top">
+              <button className="w-full h-full rounded-full"
+                onClick={() => toggleSceneAudio()}
+              >
+                <Image
+                  src={`/images/${sceneAudioCheck ? 'voice_on.png' : 'voice_off.png'}`}
+                  width={128}
+                  height={128}
+                  alt="ảnh bật tắt âm thanh"
+                  className="w-full h-full"
+                />
+              </button>
+            </Tooltip>
 
-            <div className="bar-icon absolute top-0 left-0 border-2 border-white"
-              onClick={() => setShowDescription(state => !state)}
-            >
-              <span className="icon">
-                info_i
-              </span>
-            </div>
+            <Tooltip title='Xem mô tả' arrow placement="top">
+              <div className="bar-icon absolute top-0 left-0 border-2 border-white"
+                onClick={() => setShowDescription(state => !state)}
+              >
+                <span className="icon">
+                  info_i
+                </span>
+              </div>
+            </Tooltip>
           </div>
 
           <div className="flex flex-col space-y-2 select-none">
             <div id="gallery" className={`flex flex-col space-y-2 opacity-0 invisible translate-y-11 transition-all 
               ${showMoreOptions ? '!opacity-100 !visible !translate-y-0' : ''}`}>
-              <a href={findSettingByName("so do")?.url} className="bar-icon block"
-                data-pswp-width="10000" 
-                data-pswp-height="10000" 
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span className="icon">
-                  location_on
-                </span>
-              </a>
+              <Tooltip title="Xem bản đồ" arrow placement="left">
+                <a href={findSettingByName("so do")?.url} className="bar-icon block"
+                  data-pswp-width="10000"
+                  data-pswp-height="10000"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span className="icon">
+                    location_on
+                  </span>
+                </a>
+              </Tooltip>
 
-              <div className="bar-icon"
-                onClick={() => screenShot()}
-              >
-                <span className="icon">
-                  photo_camera
-                </span>
-              </div>
+              <Tooltip title="Chụp ảnh" arrow placement="left">
+                <div className="bar-icon"
+                  onClick={() => screenShot()}
+                >
+                  <span className="icon">
+                    photo_camera
+                  </span>
+                </div>
+              </Tooltip>
 
-              <div className="bar-icon"
-                onClick={() => toggleMainAudio()}
-              >
-                <span className="icon">
-                  {mainAudioCheck ? 'volume_up' : 'no_sound'}
-                </span>
-              </div>
+              <Tooltip title={mainAudioCheck ? 'Tắt nhạc nền' : 'Bật nhạc nền'} arrow placement="left">
+                <div className="bar-icon"
+                  onClick={() => toggleMainAudio()}
+                >
+                  <span className="icon">
+                    {mainAudioCheck ? 'volume_up' : 'no_sound'}
+                  </span>
+                </div>
+              </Tooltip>
 
-              <div className="bar-icon"
-                onClick={() => toggleAutoRotate()}
-              >
-                <span className="icon">
-                  {autoRotateCheck ? 'sync' : 'sync_disabled'}
-                </span>
-              </div>
+              <Tooltip title={autoRotateCheck ? 'Tắt tự động xoay' : 'Bật tự động xoay'} arrow placement="left">
+                <div className="bar-icon"
+                  onClick={() => toggleAutoRotate()}
+                >
+                  <span className="icon">
+                    {autoRotateCheck ? 'sync' : 'sync_disabled'}
+                  </span>
+                </div>
+              </Tooltip>
 
-              <div className="bar-icon"
-                onClick={() => toggleFullScreen()}
-              >
-                <span className="icon">
-                  {fullScreen ? 'zoom_out_map' : 'zoom_in_map'}
-                </span>
-              </div>
+              <Tooltip title={fullScreen ? 'Thoát toàn màn hình' : 'Toàn màn hình'} arrow placement="left">
+                <div className="bar-icon"
+                  onClick={() => toggleFullScreen()}
+                >
+                  <span className="icon">
+                    {fullScreen ? 'zoom_out_map' : 'zoom_in_map'}
+                  </span>
+                </div>
+              </Tooltip>
             </div>
 
-            <div className="bar-icon"
-              onClick={() => setShowMoreOptions(state => !state)}
-            >
-              <span className="icon">
-                more_horiz
-              </span>
-            </div>
+            <Tooltip title={showMoreOptions ? 'Thu gọn' : 'Mở rộng'} arrow placement={showMoreOptions ? "left" : 'top-end'}>
+              <div className="bar-icon"
+                onClick={() => setShowMoreOptions(state => !state)}
+              >
+                <span className="icon">
+                  more_horiz
+                </span>
+              </div>
+            </Tooltip>
           </div>
         </div>
       </div>
